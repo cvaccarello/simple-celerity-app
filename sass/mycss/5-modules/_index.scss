@@ -1,0 +1,12 @@
+@import 'celerity-header';
+@import 'celerity-footer';
+@import 'celerity-buttons';
+@import 'celerity-team-members';
+
+.celerity-custom-placeholder {
+	height: 449px;
+
+	@media ($bp-sm) {
+		height: auto;
+	}
+}

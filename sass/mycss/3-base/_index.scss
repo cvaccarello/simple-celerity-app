@@ -1,0 +1,21 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	background-color: $color-background;
+}
+
+main {
+	padding-bottom: 350px;
+
+	@media ($bp-sm) {
+		padding-bottom: 260px;
+	}
+}
+
+section {
+	border-radius: 5px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}

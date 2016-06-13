@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Celerity Example Program</title>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/app.css" type="text/css" />
+
+		<!-- load script files -->
+		<!-- TODO:  Eventually should probably load all of these as part of a build process -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+
+		<script>
+			$(document).ready(function() {
+				this.options = {
+					colors: ['#5c2946', '#b2ba1c'],
+					chart: {
+						renderTo: 'highchart-columnchart-container',
+						type: 'column'
+					},
+					credits: {
+						enabled: false
+					},
+					legend: {
+						enabled: false
+					},
+					title : {
+						text: null
+					},
+					xAxis: {
+						title: {
+							text: null
+						},
+						categories: ['Nov', 'Dec', 'Jan', 'Fed', 'Mar', 'Apr', 'May', 'Jun']
+					},
+					yAxis: {
+						min: 0,
+						max: 100,
+						title: {
+							text: null
+						}
+					},
+					plotOptions: {
+						series: {
+							marker: {
+								enabled: false
+							},
+							dataLabels: {
+								enabled: true,
+								color: '#b2ba1c',
+								style: {
+									fontSize: '16px',
+									fontWeight:'bold',
+									textShadow: '',
+								},
+								// This funtion could likely be optimized if the "max value" was determined on load...
+								// NOTE:  This also could display multiple values if several series are tied for the top value
+								formatter: function () {
+									// get max value of all series in use
+									var series = this.series.chart.series;
+									var max_value = series[0].dataMax;
+									for (var i=1; i<series.length; i++) {
+										var s = series[i];
+										max_value = Math.max(max_value, s.dataMax);
+									}
+
+									if (this.y == max_value) {
+										return this.y + '%';
+									}
+
+									return null;
+								}
+							}
+						}
+					},
+					series: [{
+						name: 'item #1',
+						data: [42, 40, 37, 40, 45, 50, 60, 77]
+					},{
+						name: 'item #2',
+						data: [48, 38, 30, 40, 48, 65, 58, 90]
+					}]
+				};
+
+
+				// initialize chart with given options from above ^
+				$("#highchart-columnchart-container").highcharts(this.options);
+			});
+		</script>
+	</head>
+	<body>
+		<div class="page-wrapper">
+			<header class="celerity-header">
+				<nav class="navbar navbar-default">
+					<div class="container">
+
+						<div class="row">
+							<div class="col-xs-12 col-sm-4">
+								<div class="navbar-header">
+									<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#celerity-collapsed-header" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<i class="fa fa-bars fa-lg" aria-hidden="true"></i>
+									</button>
+
+									<a class="navbar-brand" href="#"><img src="images/celerity-logo.png"></a>
+								</div>
+							</div>
+
+							<div id="celerity-collapsed-header" class="collapse navbar-collapse">
+								<div class="col-xs-12 col-sm-4">
+									<form class="navbar-form text-center" role="search">
+										<div class="input-group">
+											<input type="text" class="form-control" placeholder="Search">
+											<span class="input-group-btn">
+												<button class="btn btn-default btn-grey-border" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+											</span>
+										</div>
+									</form>
+								</div>
+
+								<div class="col-xs-12 col-sm-4">
+									<ul class="nav navbar-nav navbar-right celerity-header-profile">
+										<li class="celerity-header-profile-item"><div class="celerity-header-profile-picture"></div></li>
+										<li>
+											<ul class="list-group">
+											  <li class="list-group-item"><strong>Customer Name</strong></li>
+											  <li class="list-group-item celerity-miniheader"><a href="#">Account Settings</a> | <a href="#">Log out</a></li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</nav>
+
+				<nav class="navbar navbar-inverse">
+					<div class="container">
+
+						<div class="row">
+							<div class="navbar-header celerity-subheader-collapsed-buttons">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#celerity-collapsed-subheader" aria-expanded="false">
+									<span class="sr-only">Toggle navigation</span>
+									Button
+								</button>
+
+								<ul class="nav navbar-nav celerity-subheader-notifications">
+									<li><a href="#" class="celerity-notification"><span class="badge">13</span> Notification</a></li>
+									<li><a href="#" class="celerity-notification"><span class="badge">4</span> Notification</a></li>
+								</ul>
+							</div>
+
+							<div id="celerity-collapsed-subheader" class="collapse navbar-collapse celerity-subheader-buttons">
+								<ul class="nav navbar-nav">
+									<li><a href="#">Button</a></li>
+									<li><a href="#">Button</a></li>
+									<li><a href="#">Button</a></li>
+									<li><a href="#">Button</a></li>
+									<li><a href="#">Button</a></li>
+									<!-- would only do this if the buttons were not important enough to see at certain smaller resoltions.... -->
+									<li class="hidden-sm"><a href="#">Button</a></li>
+									<li class="hidden-sm"><a href="#">Button</a></li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				</nav>
+			</header>
+
+
+
+
+
+			<main>
+				<div class="container">
+					<div class="col-xs-12">
+						<div class="row">
+							<div class="bg-warning hidden-xs">
+								<div class="row">
+									<div class="col-xs-9">
+										<i class="fa fa-exclamation-triangle fa-lg celerity-extra-margin" aria-hidden="true"></i> <strong>Client Name:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut lacinia ipsum. Fusce consequat, nibh id egestas iaculis...
+									</div>
+									<div class="col-xs-3">
+										<nav class="nav pull-right">
+											<ul class="list-inline celerity-pagination">
+												<li>
+													<a href="#" aria-label="Previous">
+														<span class="sr-only">Previous Message</span>
+														<i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>
+													</a>
+												</li>
+												<li>1 of 3</li>
+												<li>
+													<a href="#" aria-label="Next">
+														<span class="sr-only">Next Message</span>
+														<i class="fa fa-angle-right fa-lg" aria-hidden="true"></i>
+													</a>
+												</li>
+												<li>
+													<button class="celerity-custom-button-close">
+														<span class="sr-only">Close Warning</span>
+														<i class="fa fa-close fa-lg"></i>
+													</button>
+												</li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<section>
+								<div class="panel panel-default celerity-panel">
+									<header class="panel-heading">
+										<h1 class="panel-title">Section Title</h1>
+									</header>
+									<div class="panel-body celerity-panel-flexbox">
+										<div class="col-xs-12 col-sm-6 celerity-custom-placeholder"></div>
+										<div class="panel panel-default celerity-subpanel celerity-panel-bordered col-xs-12 col-sm-6">
+											<header class="panel-heading">
+												<h2 class="panel-title">Sub section title</h2>
+											</header>
+
+											<div class="panel-body">
+												<div class="celerity-callout">
+													<h3 class="celerity-callout-title">Title Goes Here. Right Here.</h3>
+													<p><strong>Section:</strong> Title Goes Here | Date</p>
+												</div>
+												<p>Integer elementum est erat, nec accumsan metus posuere in. Etiam condimentum sodales risus vel maximus. Donec iaculis finibus velit, et rhoncus metus gravida at. Nam feugiat nunc urna, non maximus tellus scelerisque ac. In fringilla, velit ut vestibulum faucibus, nisl nisl posuere ipsum, a sagittis leo purus vitae lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in ante eu augue facilisis commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut ultricies fermentum est, vel tincidunt nunc ultricies id. Proin vestibulum iaculis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis felis a sem ultricies tempor ac sit amet quam.</p>
+												<a href="#" class="celerity-custom-learn-more-link">Learn More</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12">
+							<section>
+								<div class="panel panel-default celerity-panel celerity-panel-bordered">
+									<header class="panel-heading clearfix">
+										<div class="row">
+											<h1 class="panel-title col-xs-12 col-sm-9 col-lg-10">Section Title <span class="visible-xs-inline-block">-</span></h1>
+											<div class="dropdown text-right col-xs-12 col-sm-3 col-lg-2" role="presentation">
+												<a class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+													Drop Down <span class="caret"></span>
+												</a>
+												<ul class="dropdown-menu">
+													<li>Foo?</li>
+													<li>Bar?</li>
+													<li>BAZ!?</li>
+												</ul>
+											</div>
+										</div>
+									</header>
+									<div class="panel-body celerity-panel-flexbox">
+										<div class="panel panel-default celerity-subpanel col-xs-12 col-sm-4">
+											<div class="panel-body">
+												<div class="celerity-callout">
+													<h3 class="celerity-callout-title">Title Goes Here.</h3>
+													<p><strong>Section:</strong> Title Goes Here | Date</p>
+												</div>
+												<p>Integer elementum est erat, nec accumsan metus posuere in. Etiam condimentum sodales risus vel maximus. Donec iaculis finibus velit, et rhoncus metus gravida at. Nam feugiat nunc urna, non maximus tellus scelerisque ac. In fringilla, velit ut vestibulum faucibus, nisl nisl posuere ipsum, a sagittis leo purus vitae lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in ante eu augue facilisis commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut ultricies fermentum est, vel tincidunt nunc ultricies id. Proin vestibulum iaculis pharetra. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus quis felis a sem ultricies tempor ac sit amet quam.</p>
+												<a href="#" class="celerity-custom-learn-more-link visible-xs-block">Learn More</a>
+											</div>
+										</div>
+
+										<div class="panel panel-default celerity-subpanel col-xs-12 col-sm-4">
+											<header class="clearfix">
+												<ul class="highchart-legend list-inline">
+													<li><h3 class="highchart-name">Chart Name <span class="highchart-metric highchart-metric-positive"><i class="fa fa-caret-up" aria-hidden="true"></i> 1%</span></h3></li>
+													<li class="highchart-legend-item first">Year</li>
+													<li class="highchart-legend-item second">Year</li>
+												</ul>
+											</header>
+											<div id="highchart-columnchart-container" class="panel-body">
+
+											</div>
+										</div>
+
+										<div class="panel panel-default celerity-subpanel col-xs-12 col-sm-4">
+											<div class="panel-body">
+												<div class="celerity-callout">
+													<h3 class="celerity-callout-title">Title Goes Here.</h3>
+													<p><strong>Section:</strong> Title Goes Here | Date</p>
+												</div>
+												<p>Integer elementum est erat, nec accumsan metus posuere in. Etiam condimentum sodales risus vel maximus. Donec iaculis finibus velit, et rhoncus metus gravida at. Nam feugiat nunc urna, non maximus tellus scelerisque ac. In fringilla, velit ut vestibulum faucibus, nisl nisl posuere ipsum, a sagittis leo purus vitae lectus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in ante eu augue facilisis commodo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut ultricies fermentum est, vel tincidunt nunc ultricies id. Proin vestibulum iaculis pharetra.</p>
+												<a href="#" class="celerity-custom-learn-more-link visible-xs-block">Learn More</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-12 col-sm-4">
+							<section>
+								<div class="panel panel-default celerity-panel celerity-panel-bordered">
+									<header class="panel-heading">
+										<h1 class="panel-title">Section Title <span class="visible-xs-inline-block">-</span></h1>
+									</header>
+									<div class="panel-body">
+										<div class="panel panel-default celerity-subpanel">
+											<div class="panel-body">
+												<div class="celerity-callout">
+													<h3 class="celerity-callout-title">Title Goes Here.</h3>
+													<p><strong>Section:</strong> Title Goes Here | Date</p>
+												</div>
+												<p>Nam feugiat nunc urna, non maximus tellus scelerisque ac. In fringilla, velit ut vestibulum faucibus, nisl nisl posuere ipsum, a sagittis leo purus vitae lectus.</p>
+											</div>
+											<footer class="celerity-panel-footer celerity-panel-footer-bordered">
+												<nav class="text-center">
+													<a href="#" class="btn-default btn-block btn-lg celerity-custom-section-link"><i class="fa fa-newspaper-o fa-lg" aria-hidden="true"></i> Section Link</a>
+												</nav>
+											</footer>
+										</div>
+									</div>
+								</div>
+							</section>
+						</div>
+
+						<div class="col-xs-12 col-sm-8">
+							<section>
+								<div class="panel panel-default celerity-panel celerity-panel-bordered">
+									<header class="panel-heading clearfix">
+										<div class="row">
+											<h1 class="panel-title col-xs-12 col-sm-8 col-lg-9">Section Title <span class="visible-xs-inline-block">-</span></h1>
+											<div class="text-right hidden-xs col-xs-12 col-sm-4 col-lg-3">
+												<button class="btn btn-default btn-block">Button</button>
+											</div>
+										</div>
+									</header>
+									<div class="panel-body celerity-panel-flexbox">
+										<div class="panel panel-default celerity-subpanel celerity-team-member col-xs-12 col-sm-4">
+											<div class="panel-body">
+												<div class="celerity-team-member-profile"></div>
+												<strong class="celerity-team-member-name">Team Member Name</strong>
+												<div>Job Title</div>
+											</div>
+											<footer class="celerity-panel-footer">
+												<nav>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Email</span>
+														<i class="fa fa-envelope" aria-hidden="true"></i>
+													</button>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Phone Number</span>
+														<i class="fa fa-phone" aria-hidden="true"></i>
+													</button>
+												</nav>
+											</footer>
+										</div>
+
+										<div class="panel panel-default celerity-subpanel celerity-team-member col-xs-12 col-sm-4">
+											<div class="panel-body">
+												<div class="celerity-team-member-profile"></div>
+												<strong class="celerity-team-member-name">Team Member Name</strong>
+												<div>Job Title</div>
+											</div>
+											<footer class="celerity-panel-footer">
+												<nav>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Email</span>
+														<i class="fa fa-envelope" aria-hidden="true"></i>
+													</button>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Phone Number</span>
+														<i class="fa fa-phone" aria-hidden="true"></i>
+													</button>
+												</nav>
+											</footer>
+										</div>
+
+										<div class="panel panel-default celerity-subpanel celerity-team-member col-xs-12 col-sm-4">
+											<div class="panel-body">
+												<div class="celerity-team-member-profile"></div>
+												<strong class="celerity-team-member-name">Team Member Name</strong>
+												<div>Job Title</div>
+											</div>
+											<footer class="celerity-panel-footer">
+												<nav>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Email</span>
+														<i class="fa fa-envelope" aria-hidden="true"></i>
+													</button>
+													<button class="btn btn-default btn-sm disabled" disabled="disabled">
+														<span class="sr-only">Phone Number</span>
+														<i class="fa fa-phone" aria-hidden="true"></i>
+													</button>
+												</nav>
+											</footer>
+										</div>
+									</div>
+								</div>
+							</section>
+						</div>
+					</div>
+
+				</div>
+			</main>
+
+
+
+
+			<footer class="celerity-footer">
+				<nav class="navbar navbar-default">
+					<div class="container">
+
+						<div class="visible-xs">
+							<ul class="nav">
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+								<li><a class="text-center" href="#"><strong>Button Name</strong></a></li>
+							</ul>
+						</div>
+
+						<div class="hidden-xs">
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+								<ul class="nav">
+									<li><a href="#">Content Link</a></li>
+									<li><a href="#">Content Link</a></li>
+								</ul>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+								<ul class="nav">
+									<li><a href="#">Content Link</a></li>
+									<li><a href="#">Content Link</a></li>
+								</ul>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+								<ul class="nav">
+									<li><a href="#">Content Link</a></li>
+									<li><a href="#">Content Link</a></li>
+								</ul>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+								<ul class="nav">
+									<li><a href="#">Content Link</a></li>
+									<li><a href="#">Content Link</a></li>
+								</ul>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+								<ul class="nav">
+									<li><a href="#">Content Link</a></li>
+									<li><a href="#">Content Link</a></li>
+								</ul>
+							</div>
+
+							<div class="celerity-footer-col">
+								<div class="celerity-footer-title">Content Link</div>
+							</div>
+						</div>
+
+					</div>
+				</nav>
+
+				<!-- this is purposely not a nav element b/c it has no navigation -->
+				<div class="navbar navbar-default celerity-navbar-custom">
+					<div class="container">
+						&#169; 2016 Celerity
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</body>
+</html>

@@ -1,0 +1,90 @@
+
+.celerity-panel {
+	background: darken($color-background, 2%);
+	margin-top: 30px;
+	margin-bottom: 0;
+	border-radius: 5px;
+	overflow: hidden;
+
+	&.celerity-panel-bordered {
+		.panel-heading {
+			border-bottom: 4px solid $color-purple;
+		}
+	}
+
+	.panel-heading {
+		background: #ffffff;
+	}
+
+	.panel-title {
+		padding-top: 7px;
+		padding-bottom: 7px;
+	}
+
+	.panel-body {
+		padding: 0;
+	}
+
+	.nav > li > a {
+		padding: 6px 15px;
+
+		.caret {
+			color: lighten($color-grey, 10%);
+			margin-left: 15px;
+		}
+	}
+
+	.celerity-panel-footer {
+		padding: 15px 30px;
+
+		&.celerity-panel-footer-bordered {
+			border-top: 1px solid darken($color-background, 10%);
+		}
+	}
+}
+
+.celerity-subpanel {
+	padding: 0;		// no grid gutters
+	margin: 0;
+	border-width: 0;
+	border-top-width: 1px;
+	border-color: $color-purple;
+	border-radius: 0;
+
+	@media ($bp-sm) {
+		border-top-width: 0;
+		border-left-width: 1px;
+		border-color: #ddd;
+	}
+
+	&.celerity-panel-bordered {
+		.panel-heading {
+			@media ($bp-sm) {
+				border-top: 4px solid $color-green;
+			}
+		}
+	}
+
+	.panel-heading {
+		border: 0 none;
+		border-radius: 0;
+	}
+
+	.panel-title {
+		font-size: 1.2em;
+		font-weight: 800;
+		border-bottom: 1px solid darken($color-background, 10%);
+	}
+
+	.panel-body {
+		padding: 15px 30px;
+	}
+}
+
+// Special flexbox just for panels
+// NOTE:  There is a catch to this, you can't have the inner panels float left or right
+.celerity-panel-flexbox {
+	@media ($bp-sm) {
+		display: flex;
+	}
+}

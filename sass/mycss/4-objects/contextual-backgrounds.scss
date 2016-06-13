@@ -1,0 +1,7 @@
+// override bootstrap "warning" dialog to look more like the one Celerity is using
+.bg-warning {
+	color: $color-purple;
+	background: $color-green-desaturated;
+	padding: 15px;
+	font-weight: 600;
+}
